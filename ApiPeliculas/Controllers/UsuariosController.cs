@@ -120,7 +120,7 @@ namespace ApiPeliculas.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, usuarioDesdeRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name, usuarioDesdeRepo.UsuarioA.ToString())
-            };
+                };
 
             // generacion de token
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
@@ -131,10 +131,10 @@ namespace ApiPeliculas.Controllers
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = credenciales,
             };
-            
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(new {token = tokenHandler.WriteToken(token)});
+            return Ok(new { token = tokenHandler.WriteToken(token) });
         }
     }
 }
