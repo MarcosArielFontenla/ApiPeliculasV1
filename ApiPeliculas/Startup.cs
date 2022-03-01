@@ -59,9 +59,45 @@ namespace ApiPeliculas
             // configuracion de documentacion de la api.
             services.AddSwaggerGen(options =>
             {
+                options.SwaggerDoc("ApiPeliculasCategorias", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Api Categorias Peliculas",
+                    Version = "v1",
+                    Description = "Backend peliculas",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "marcos.fontenla@hotmail.com",
+                        Name = "Marcos Ariel Fontenla",
+                        Url = new Uri("https://marcosarielfontenla.web.app")
+                    },
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense()
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+                    }
+                });
+
                 options.SwaggerDoc("ApiPeliculas", new Microsoft.OpenApi.Models.OpenApiInfo()
                 {
                     Title = "Api Peliculas",
+                    Version = "v1",
+                    Description = "Backend peliculas",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "marcos.fontenla@hotmail.com",
+                        Name = "Marcos Ariel Fontenla",
+                        Url = new Uri("https://marcosarielfontenla.web.app")
+                    },
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense()
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+                    }
+                });
+
+                options.SwaggerDoc("ApiPeliculasUsuarios", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Api Usuarios Peliculas",
                     Version = "v1",
                     Description = "Backend peliculas",
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact()
@@ -95,7 +131,9 @@ namespace ApiPeliculas
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
+                options.SwaggerEndpoint("/swagger/ApiPeliculasCategorias/swagger.json", "API Categorias Peliculas");
                 options.SwaggerEndpoint("/swagger/ApiPeliculas/swagger.json", "API Peliculas");
+                options.SwaggerEndpoint("/swagger/ApiPeliculasUsuarios/swagger.json", "API Usuarios Peliculas");
             });
 
             app.UseRouting();

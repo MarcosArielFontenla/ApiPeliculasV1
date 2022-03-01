@@ -15,6 +15,8 @@ namespace ApiPeliculas.Controllers
 {
     [Route("api/Peliculas")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiPeliculas")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class PeliculasController : ControllerBase
     {
         private readonly IPeliculaRepository _pelRepository;
@@ -33,6 +35,8 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<PeliculaDTO>))]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> GetPeliculas()
         {
             var listaPeliculas = await _pelRepository.GetPeliculas();
@@ -51,6 +55,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="peliculaId"></param>
         /// <returns></returns>
         [HttpGet("{peliculaId:int}", Name = "GetPelicula")]
+        [ProducesResponseType(200, Type = typeof(PeliculaDTO))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> GetPelicula(int peliculaId)
         {
             var itemPelicula = await _pelRepository.GetPelicula(peliculaId);
@@ -113,6 +120,10 @@ namespace ApiPeliculas.Controllers
         /// <param name="PeliculaDTO"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(PeliculaCreateDTO))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearPelicula([FromForm] PeliculaCreateDTO PeliculaDTO)
         {
             if (PeliculaDTO == null)
@@ -159,6 +170,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="peliculaDTO"></param>
         /// <returns></returns>
         [HttpPatch("{peliculaId:int}", Name = "ActualizarPelicula")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ActualizarPelicula(int peliculaId, [FromBody] PeliculaDTO peliculaDTO)
         {
             if (peliculaDTO == null || peliculaId != peliculaDTO.Id)
@@ -180,6 +194,10 @@ namespace ApiPeliculas.Controllers
         /// <param name="peliculaId"></param>
         /// <returns></returns>
         [HttpDelete("{peliculaId:int}", Name = "BorrarPelicula")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> BorrarPelicula(int peliculaId)
         {
             if (!await _pelRepository.ExistePelicula(peliculaId))

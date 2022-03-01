@@ -13,6 +13,8 @@ namespace ApiPeliculas.Controllers
 {
     [Route("api/Categorias")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiPeliculasCategorias")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class CategoriasController : Controller
     {
         private readonly ICategoriaRepository _ctRepository;
@@ -29,6 +31,8 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<CategoriaDTO>))]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> GetCategorias()
         {
             var listaCategorias = await _ctRepository.GetCategorias();
@@ -47,6 +51,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaId">Id de la categoria que recibo</param>
         /// <returns></returns>
         [HttpGet("{categoriaId:int}", Name = "GetCategoria")]
+        [ProducesResponseType(200, Type = typeof(CategoriaDTO))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> GetCategoria(int categoriaId)
         {
             var itemCategoria = await _ctRepository.GetCategoria(categoriaId);
@@ -64,6 +71,10 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaDTO"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(CategoriaDTO))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearCategoria([FromBody] CategoriaDTO categoriaDTO)
         {
             if (categoriaDTO == null)
@@ -91,6 +102,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaDTO"></param>
         /// <returns></returns>
         [HttpPatch("{categoriaId:int}", Name = "ActualizarCategoria")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ActualizarCategoria(int categoriaId, [FromBody] CategoriaDTO categoriaDTO)
         {
             if (categoriaDTO == null || categoriaId != categoriaDTO.Id)
@@ -112,6 +126,10 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaId"></param>
         /// <returns></returns>
         [HttpDelete("{categoriaId:int}", Name = "BorrarCategoria")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> BorrarCategoria(int categoriaId)
         {
             if (!await _ctRepository.ExisteCategoria(categoriaId))

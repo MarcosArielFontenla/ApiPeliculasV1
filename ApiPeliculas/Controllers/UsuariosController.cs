@@ -18,6 +18,7 @@ namespace ApiPeliculas.Controllers
 {
     [Route("api/Usuarios")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiPeliculasUsuarios")]
     public class UsuariosController : Controller
     {
         private readonly IUsuarioRepository _usuRepository;
@@ -42,6 +43,8 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<UsuarioDTO>))]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> GetUsuarios()
         {
             var listaUsuarios = await _usuRepository.GetUsuarios();
@@ -60,6 +63,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="usuarioId"></param>
         /// <returns></returns>
         [HttpGet("{usuarioId:int}", Name = "GetUsuario")]
+        [ProducesResponseType(200, Type = typeof(UsuarioDTO))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> GetUsuario(int usuarioId)
         {
             var itemUsuario = await _usuRepository.GetUsuario(usuarioId);
