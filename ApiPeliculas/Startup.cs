@@ -39,6 +39,7 @@ namespace ApiPeliculas
 
             services.AddControllers();
             services.AddAutoMapper(typeof(PeliculasMappers));
+            services.AddCors();
 
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
             services.AddScoped<IPeliculaRepository, PeliculaRepository>();
@@ -142,6 +143,7 @@ namespace ApiPeliculas
             {
                 endpoints.MapControllers();
             });
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         }
     }
 }
