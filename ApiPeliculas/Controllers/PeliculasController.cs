@@ -2,6 +2,7 @@
 using ApiPeliculas.Models.DTOs;
 using ApiPeliculas.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace ApiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/Peliculas")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculas")]
@@ -34,6 +36,7 @@ namespace ApiPeliculas.Controllers
         /// Obtiene todas las peliculas.
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<PeliculaDTO>))]
         [ProducesResponseType(400)]
@@ -54,6 +57,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="peliculaId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("{peliculaId:int}", Name = "GetPelicula")]
         [ProducesResponseType(200, Type = typeof(PeliculaDTO))]
         [ProducesResponseType(404)]
@@ -74,6 +78,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="categoriaId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("GetPeliculasEnCategoria/{categoriaId:int}")]
         public async Task<IActionResult> GetPeliculasenCategoria(int categoriaId)
         {
@@ -96,6 +101,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="nombre"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("Buscar")]
         public async Task<IActionResult> Buscar(string nombre)
         {

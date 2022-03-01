@@ -138,6 +138,7 @@ namespace ApiPeliculas
             });
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

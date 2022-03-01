@@ -13,9 +13,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/Usuarios")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculasUsuarios")]
@@ -82,6 +84,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="usuarioAuthDTO"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("Registro")]
         public async Task<IActionResult> Registro(UsuarioAuthDTO usuarioAuthDTO)
         {
@@ -104,6 +107,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="usuarioAuthLoginDTO"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UsuarioAuthLoginDTO usuarioAuthLoginDTO)
         {
